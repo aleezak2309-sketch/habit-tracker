@@ -15,7 +15,7 @@ def log_question(data):
             print('No topics avaialble to see curently')
             return 
       topics=list(data.keys())
-      for i,topic in enumerate(topic,start=1):
+      for i,topic in enumerate(topics,start=1):
             print(f'{i},{topic}')
       number=input('Please choose the topic that you are intrested in: ').strip()
       if not number.isdigit() or int(number)<1 or int(number) >len(topics):
@@ -32,7 +32,7 @@ def log_question(data):
             print('Question already in data')
             return
       else:
-            data[topic]=question 
+            data[topic].append(question)
             print(f'Succesfully logged {question} under {topic}')
 def view_topics(data):
  if data=={}:
@@ -40,12 +40,12 @@ def view_topics(data):
        return 
  for topic,questions in data.items():
        print(f'{topic}: {len(questions)}')
- while True:
+while True:
     print('[1].Add Topic')
     print('[2].Log Question Solved')
     print('[3].View Topics')
     print('[4].Quit')
-    choice=int(input('Please enter your choice: ')).strip()
+    choice=int(input('Please enter your choice: '))
     if choice==1:
           add_topic(data)
     elif choice==2:
