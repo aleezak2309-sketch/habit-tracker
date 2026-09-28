@@ -1,15 +1,15 @@
 data={}
 def add_topic(data):
-            name=input('Please enter the topic name: ').strip().lower()
-            if name=='':
+            topic=input('Please enter the topic name: ').strip().lower()
+            if topic=='':
                 print('Please enter another name: ')
                 return 
-            if name in data:
+            if topic in data:
                 print('Sorry topic already in data')
                 return 
             else:
-                data[name]=[]
-                print(f'Added {name} to study')
+                data[topic]=[]
+                print(f'Added {topic} to study')
 def log_question(data):
       if not data:
             print('No topics avaialble to see curently')
@@ -24,7 +24,23 @@ def log_question(data):
       number=int(number)
       topic=topics[number-1]
       print(f'You picked: {topic}')
-while True:
+      question=input('Please enter question name: ').strip()
+      if question=='':
+            print('Please enter a valid question again')
+            return 
+      if question in data[topic]:
+            print('Question already in data')
+            return
+      else:
+            data[topic]=question 
+            print(f'Succesfully logged {question} under {topic}')
+def view_topics(data):
+ if data=={}:
+       print('No topics yet')
+       return 
+ for topic,questions in data.items():
+       print(f'{topic}: {len(questions)}')
+ while True:
     print('[1].Add Topic')
     print('[2].Log Question Solved')
     print('[3].View Topics')
@@ -35,7 +51,7 @@ while True:
     elif choice==2:
           log_question(data)
     elif choice==3:
-          print('Coming Soon')
+          view_topics(data)
     elif choice==4:
           print('GoodBye!')
           break 
