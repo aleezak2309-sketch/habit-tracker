@@ -1,3 +1,4 @@
+
 data={}
 def add_topic(data):
             topic=input('Please enter the topic name: ').strip().lower()
@@ -10,6 +11,22 @@ def add_topic(data):
             else:
                 data[topic]=[]
                 print(f'Added {topic} to study')
+def delete_topic(data):
+      if data =={}:
+            print('No topics available to delete')
+            return 
+      else:
+            topics=list(data.keys())
+            for i,topic in enumerate(topics,start=1):
+                  print(f'{i}:{topic}')
+            delete=input('Please enter which topic to delete: ').strip()
+            if not delete.isdigit() or int(delete)<1 or int(delete)>len(topics):
+                        print('Incorrect number')
+            else:
+                        delete=int(delete)
+                        topic=topics[delete-1]
+                        del data[topic]
+                        print(f'{topic} topic sucessfully deleted')
 def log_question(data):
       if not data:
             print('No topics avaialble to see curently')
@@ -45,16 +62,15 @@ while True:
     print('[2].Log Question Solved')
     print('[3].View Topics')
     print('[4].Quit')
-    choice=int(input('Please enter your choice: '))
-    if choice==1:
+    print('[5].Delete Topic')
+    choice=(input('Please enter your choice: ')).strip()
+    if choice=='1':
           add_topic(data)
-    elif choice==2:
+    elif choice=='2':
           log_question(data)
-    elif choice==3:
+    elif choice=='3':
           view_topics(data)
-    elif choice==4:
-          print('GoodBye!')
-          break 
-    else:
-          print('Please choose a option from 1-4')
-
+    elif choice=='4':
+          print('Delete Topic')
+    elif choice=='5':
+          print('Goodbye')

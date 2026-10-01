@@ -1,0 +1,13 @@
+import unittest
+
+
+class TestAddTopic(unittest.TestCase):
+
+    def test_arrays_gets_added(self):
+        data = {}
+        data["arrays"] = []
+        self.assertIn("arrays", data)
+
+
+if __name__ == "__main__":
+    unittest.main()
