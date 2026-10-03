@@ -42,14 +42,18 @@ def log_question(data):
       topic=topics[number-1]
       print(f'You picked: {topic}')
       question=input('Please enter question name: ').strip()
+      difficulty=input('Difficulty:(Easy/Medium/Hard): ').strip()
       if question=='':
             print('Please enter a valid question again')
             return 
-      if question in data[topic]:
+      if difficulty=='':
+            print('Please enter a valid question again')
+      for item in data[topic]:
+            if item['name']==question:
             print('Question already in data')
             return
       else:
-            data[topic].append(question)
+            data[topic].append({'name'}:question,'difficulty':difficulty})
             print(f'Succesfully logged {question} under {topic}')
 def view_topics(data):
  if data=={}:
