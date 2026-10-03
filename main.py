@@ -1,4 +1,3 @@
-
 data={}
 def add_topic(data):
             topic=input('Please enter the topic name: ').strip().lower()
@@ -48,25 +47,44 @@ def log_question(data):
             return 
       if difficulty=='':
             print('Please enter a valid question again')
+            return 
       for item in data[topic]:
             if item['name']==question:
-            print('Question already in data')
-            return
+                  print('Question already in data')
+                  return
       else:
-            data[topic].append({'name'}:question,'difficulty':difficulty})
+            data[topic].append({'name':question,'difficulty':difficulty})
             print(f'Succesfully logged {question} under {topic}')
 def view_topics(data):
  if data=={}:
        print('No topics yet')
        return 
- for topic,questions in data.items():
-       print(f'{topic}: {len(questions)}')
+for topic,questions in data.items():
+      print(f'{topic}:{len(questions)} solutions')
+      for item in questions:
+            print(f'-{item["name"]}: {item["difficulty"]}')
+def search_questions(data):
+      if data=={}:
+            print('No topic yet')
+            return 
+      keyword=input('Enter a keyword to search: ').strip().lower()
+      found=False
+      for topic,questions in data.items():
+            for item in questions:
+                  if keyword in item["name"].lower():
+                        print(f'found: {item["name"]}({item["difficulty"]})-in {topic}')
+                        found=True
+      if not found:
+             print('Keyword not found')
+
+
 while True:
     print('[1].Add Topic')
     print('[2].Log Question Solved')
     print('[3].View Topics')
     print('[4].Quit')
     print('[5].Delete Topic')
+    print('[6] Find Question')
     choice=(input('Please enter your choice: ')).strip()
     if choice=='1':
           add_topic(data)
@@ -76,5 +94,9 @@ while True:
           view_topics(data)
     elif choice=='4':
           print('Delete Topic')
-    elif choice=='5':
-          print('Goodbye')
+    elif choice==5:
+       delete_topic(data)     
+    elif choice=='6':
+       search_questions(data)
+          
+         
