@@ -59,7 +59,7 @@ def view_topics(data):
  if data=={}:
        print('No topics yet')
        return 
-for topic,questions in data.items():
+ for topic,questions in data.items():
       print(f'{topic}:{len(questions)} solutions')
       for item in questions:
             print(f'-{item["name"]}: {item["difficulty"]}')
@@ -76,7 +76,52 @@ def search_questions(data):
                         found=True
       if not found:
              print('Keyword not found')
+def view_sorted(data):
+      sorted_topics=sorted(data.items(),key=lambda pair:len(pair[1]),reverse=True)
+      for topic,questions in sorted_topics:
+            print(f'{topic}:{len(questions)} solved')
+def edit_question(data):
+    if not data:
+        print('No topics yet')
+        return
 
+    topics = list(data.keys())
+    for i, topic in enumerate(topics, start=1):
+        print(f'{i}: {topic}')
+
+    number = input('Please enter the topic number: ').strip()
+    if not number.isdigit() or int(number) < 1 or int(number) > len(topics):
+        print('Invalid number entered. Please try again')
+        return
+
+    number = int(number)
+    topic = topics[number - 1]
+
+    questions = data[topic]
+    if not questions:
+        print('No questions to edit in this topic')
+        return
+
+    for i, question in enumerate(questions, start=1):
+        print(f'{i}: {question["name"]} ({question["difficulty"]})')
+
+    choice = input('Please enter the question number: ').strip()
+    if not choice.isdigit() or int(choice) < 1 or int(choice) > len(questions):
+        print('Please enter a valid digit')
+        return
+
+    choice = int(choice)
+    question_item = questions[choice - 1]
+
+    new_name = input('New name (press Enter to keep current): ').strip()
+    if new_name != '':
+        question_item['name'] = new_name
+
+    new_difficulty = input('New difficulty (press Enter to keep current): ').strip()
+    if new_difficulty != '':
+        question_item['difficulty'] = new_difficulty
+
+    print(f"Updated to {question_item['name']} ({question_item['difficulty']})")
 
 while True:
     print('[1].Add Topic')
@@ -85,6 +130,7 @@ while True:
     print('[4].Quit')
     print('[5].Delete Topic')
     print('[6] Find Question')
+    print('[7] Sorted Data')
     choice=(input('Please enter your choice: ')).strip()
     if choice=='1':
           add_topic(data)
@@ -94,9 +140,16 @@ while True:
           view_topics(data)
     elif choice=='4':
           print('Delete Topic')
-    elif choice==5:
+          break
+    elif choice=='5':
        delete_topic(data)     
     elif choice=='6':
        search_questions(data)
+    elif choice=='7':
+          view_sorted(data)
+    elif choice=='8':
+          edit_question(data)
+                
+
           
          
