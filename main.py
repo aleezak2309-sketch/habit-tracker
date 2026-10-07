@@ -45,7 +45,7 @@ def delete_topic(data):
                         print(f'{topic} topic sucessfully deleted')
 def log_question(data):
       if not data:
-            print('No topics avaialble to see curently')
+            print('No topics available to see curently')
             return 
       topics=list(data.keys())
       for i,topic in enumerate(topics,start=1):
@@ -174,7 +174,21 @@ def personal_best(data):
                      date_counts[d]=1
       best_dates=max(date_counts,key=date_counts.get)
       print(f'the most productive day you had was{best_dates} ({date_counts[best_dates]}) questions')
-
+def topic_mastery(data):
+     if data=={}:
+          print('No data available as of now')
+          return
+     for topic,questions in data.items():
+          correct=0
+          for item in questions:
+                  item.get('status','')
+                  correct+=1
+          percent=(correct/len(questions))*100
+          print(f'{topic}: {percent:.0f}% correct ({correct}/{len(questions)}) ')
+          if len(questions)==0:
+            print(f'{topic}: no questions logged out yet.')
+            continue
+          
                      
 
            
@@ -189,6 +203,7 @@ while True:
     print('[7] Sorted Data')
     print('[8] Edit Question')
     print('[9] View Personal Best')
+    print('[10] View Topic Mastery')
 
     choice=(input('Please enter your choice: ')).strip()
     if choice=='1':
@@ -210,6 +225,9 @@ while True:
           edit_question(data)
     elif choice=='9':
          personal_best(data)
+    elif choice=='10':
+         topic_mastery(data)
+           
            
                 
 
