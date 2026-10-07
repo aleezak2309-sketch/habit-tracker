@@ -1,4 +1,20 @@
-data={}
+
+import json
+
+
+def save_data(data):
+    with open('logging.json', 'w') as f:
+        json.dump(data, f)
+
+
+def load_data():
+    try:
+        with open('logging.json', 'r') as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return {}
+    data=load_data()
+
 def add_topic(data):
             topic=input('Please enter the topic name: ').strip().lower()
             if topic=='':
@@ -9,6 +25,7 @@ def add_topic(data):
                 return 
             else:
                 data[topic]=[]
+                save_data(data)
                 print(f'Added {topic} to study')
 def delete_topic(data):
       if data =={}:
@@ -25,6 +42,7 @@ def delete_topic(data):
                         delete=int(delete)
                         topic=topics[delete-1]
                         del data[topic]
+                        save_data(data)
                         print(f'{topic} topic sucessfully deleted')
 def log_question(data):
       if not data:
@@ -54,6 +72,7 @@ def log_question(data):
                   return
       else:
             data[topic].append({'name':question,'difficulty':difficulty})
+            save_data(data)
             print(f'Succesfully logged {question} under {topic}')
 def view_topics(data):
  if data=={}:
@@ -122,6 +141,7 @@ def edit_question(data):
         question_item['difficulty'] = new_difficulty
 
     print(f"Updated to {question_item['name']} ({question_item['difficulty']})")
+    save_data()
 
 while True:
     print('[1].Add Topic')
