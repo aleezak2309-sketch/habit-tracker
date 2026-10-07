@@ -59,6 +59,7 @@ def log_question(data):
       print(f'You picked: {topic}')
       question=input('Please enter question name: ').strip()
       difficulty=input('Difficulty:(Easy/Medium/Hard): ').strip()
+      note=input('Please add any notes you would require(press enter to skip): ')
       today=date.today().isoformat()
       if question=='':
             print('Please enter a valid question again')
@@ -71,7 +72,7 @@ def log_question(data):
                   print('Question already in data')
                   return
       else:
-            data[topic].append({'name':question,'difficulty':difficulty},date:{today})
+            data[topic].append({'name':question,'difficulty':difficulty},date:{today},notes:{notes})
             save_data(data)
             print(f'Succesfully logged {question} under {topic}')
 def view_topics(data):
@@ -82,6 +83,9 @@ def view_topics(data):
       print(f'{topic}:{len(questions)} solutions')
       for item in questions:
             print(f'-{item["name"]}: {item["difficulty"]}')
+            note=item.get('note','')
+            if note != '':
+                 print(f'note: {note}')
 def search_questions(data):
       if data=={}:
             print('No topic yet')
@@ -91,7 +95,7 @@ def search_questions(data):
       for topic,questions in data.items():
             for item in questions:
                   if keyword in item["name"].lower():
-                        print(f'found: {item["name"]}({item["difficulty"]})-in {topic} date{item['date']}')
+                        print(f'found: {item["name"]}({item["difficulty"]})-in {topic} date{item['date']} note{item['note']}')
                         found=True
       if not found:
              print('Keyword not found')
