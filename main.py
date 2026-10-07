@@ -60,13 +60,15 @@ def log_question(data):
       question=input('Please enter question name: ').strip()
       difficulty=input('Difficulty:(Easy/Medium/Hard): ').strip()
       notes=input('Please add any notes you would require(press enter to skip): ')
-      status=input('Please enter if you got the question right or wrong?(right/wrong): ').strip().lower()
-      if status not in 'right'or 'wrong':
-           print('Please type right or wrong: ')
-      if status=='wrong':
-           print('What went wrong/correct approach: ').lower()
+      status=input('Please enter if you got the question right or wrong?(right/wrong): ').strip()
+      if status not in ('right', 'wrong'):
+            print('Please type right or wrong')
+            return
+
+      if status == 'wrong':
+            solution = input('What went wrong / correct approach? (optional): ').strip()
       else:
-           solution=''
+            solution = ''
 
       today=date.today().isoformat()
       if question=='':
@@ -80,7 +82,7 @@ def log_question(data):
                   print('Question already in data')
                   return
       else:
-            data[topic].append({'name':question,'difficulty':difficulty,'date':today,'notes':notes,'status':status,'solution',solution})
+            data[topic].append({'name':question,'difficulty':difficulty,'date':today,'note':notes,'status':status,'solution':solution})
             save_data(data)
             print(f'Succesfully logged {question} under {topic}')
 def view_topics(data):
