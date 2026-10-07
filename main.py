@@ -1,7 +1,6 @@
 
 import json
-
-
+from datetime import date
 def save_data(data):
     with open('logging.json', 'w') as f:
         json.dump(data, f)
@@ -60,6 +59,7 @@ def log_question(data):
       print(f'You picked: {topic}')
       question=input('Please enter question name: ').strip()
       difficulty=input('Difficulty:(Easy/Medium/Hard): ').strip()
+      today=date.today().isoformat()
       if question=='':
             print('Please enter a valid question again')
             return 
@@ -71,7 +71,7 @@ def log_question(data):
                   print('Question already in data')
                   return
       else:
-            data[topic].append({'name':question,'difficulty':difficulty})
+            data[topic].append({'name':question,'difficulty':difficulty},date:{today})
             save_data(data)
             print(f'Succesfully logged {question} under {topic}')
 def view_topics(data):
@@ -91,7 +91,7 @@ def search_questions(data):
       for topic,questions in data.items():
             for item in questions:
                   if keyword in item["name"].lower():
-                        print(f'found: {item["name"]}({item["difficulty"]})-in {topic}')
+                        print(f'found: {item["name"]}({item["difficulty"]})-in {topic} date{item['date']}')
                         found=True
       if not found:
              print('Keyword not found')
