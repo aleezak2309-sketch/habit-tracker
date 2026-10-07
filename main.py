@@ -12,7 +12,7 @@ def load_data():
             return json.load(f)
     except FileNotFoundError:
         return {}
-    data=load_data()
+    
 
 def add_topic(data):
             topic=input('Please enter the topic name: ').strip().lower()
@@ -59,7 +59,7 @@ def log_question(data):
       print(f'You picked: {topic}')
       question=input('Please enter question name: ').strip()
       difficulty=input('Difficulty:(Easy/Medium/Hard): ').strip()
-      note=input('Please add any notes you would require(press enter to skip): ')
+      notes=input('Please add any notes you would require(press enter to skip): ')
       today=date.today().isoformat()
       if question=='':
             print('Please enter a valid question again')
@@ -72,7 +72,7 @@ def log_question(data):
                   print('Question already in data')
                   return
       else:
-            data[topic].append({'name':question,'difficulty':difficulty},date:{today},notes:{notes})
+            data[topic].append({'name':question,'difficulty':difficulty,'date':today,'notes':notes})
             save_data(data)
             print(f'Succesfully logged {question} under {topic}')
 def view_topics(data):
@@ -95,7 +95,10 @@ def search_questions(data):
       for topic,questions in data.items():
             for item in questions:
                   if keyword in item["name"].lower():
-                        print(f'found: {item["name"]}({item["difficulty"]})-in {topic} date{item['date']} note{item['note']}')
+                        note=item.get("note",'')
+                        print(f'found: {item["name"]}({item["difficulty"]})-in ({topic} date{item["date"]})(note {note})')
+                        
+
                         found=True
       if not found:
              print('Keyword not found')
@@ -121,6 +124,7 @@ def edit_question(data):
     topic = topics[number - 1]
 
     questions = data[topic]
+    save_data(data)
     if not questions:
         print('No questions to edit in this topic')
         return
@@ -144,9 +148,27 @@ def edit_question(data):
     if new_difficulty != '':
         question_item['difficulty'] = new_difficulty
 
-    print(f"Updated to {question_item['name']} ({question_item['difficulty']})")
+    print(f"Updated to {question_item["name"]} ({question_item["difficulty"]})")
     save_data()
+def personal_best(data):
+      if data=={}:
+           print('No active data present')
+           return
+      date_counts={}
+      for topic,questions in data.items():
+           for item in questions:
+                d=item["date"]
+                if d in date_counts:
+                     date_counts[d]+=1
+                else:
+                     date_counts[d]=1
+      best_dates=max(date_counts,key=date_counts.get)
+      print(f'the most productive day you had was{best_dates} ({date_counts[best_dates]}) questions)')
 
+                     
+
+           
+data=load_data()           
 while True:
     print('[1].Add Topic')
     print('[2].Log Question Solved')
@@ -155,6 +177,9 @@ while True:
     print('[5].Delete Topic')
     print('[6] Find Question')
     print('[7] Sorted Data')
+    print('[8] Edit Question')
+    print('[9] View Personal Best')
+
     choice=(input('Please enter your choice: ')).strip()
     if choice=='1':
           add_topic(data)
@@ -173,6 +198,9 @@ while True:
           view_sorted(data)
     elif choice=='8':
           edit_question(data)
+    elif choice=='9':
+         personal_best(data)
+           
                 
 
           
