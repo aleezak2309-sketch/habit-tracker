@@ -163,7 +163,7 @@ def personal_best(data):
                 else:
                      date_counts[d]=1
       best_dates=max(date_counts,key=date_counts.get)
-      print(f'the most productive day you had was{best_dates} ({date_counts[best_dates]}) questions)')
+      print(f'the most productive day you had was{best_dates} ({date_counts[best_dates]}) questions')
 
                      
 
