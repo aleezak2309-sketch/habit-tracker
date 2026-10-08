@@ -1,4 +1,3 @@
-
 import json
 from datetime import date
 def save_data(data):
@@ -59,7 +58,8 @@ def log_question(data):
       print(f'You picked: {topic}')
       question=input('Please enter question name: ').strip()
       difficulty=input('Difficulty:(Easy/Medium/Hard): ').strip()
-      notes=input('Please add any notes you would require(press enter to skip): ')
+      note=input('Please add any note you would require(press enter to skip): ')
+      link=input('Link to the problem(optional, press enter to skip): ').strip()
       status=input('Please enter if you got the question right or wrong?(right/wrong): ').strip()
       if status not in ('right', 'wrong'):
             print('Please type right or wrong')
@@ -82,7 +82,7 @@ def log_question(data):
                   print('Question already in data')
                   return
       else:
-            data[topic].append({'name':question,'difficulty':difficulty,'date':today,'note':notes,'status':status,'solution':solution})
+            data[topic].append({'name':question,'difficulty':difficulty,'date':today,'note':note,'status':status,'solution':solution,'link':link})
             save_data(data)
             print(f'Succesfully logged {question} under {topic}')
 def view_topics(data):
@@ -96,6 +96,9 @@ def view_topics(data):
             note=item.get('note','')
             if note != '':
                  print(f'note: {note}')
+            link=item.get('link','')
+            if link != '':
+                  print(f' link: {link}')
 def search_questions(data):
       if data=={}:
             print('No topic yet')
@@ -180,14 +183,14 @@ def topic_mastery(data):
           return
      for topic,questions in data.items():
           correct=0
+          if len(questions)==0:
+                           print(f'{topic}: no questions logged out yet.')
+                           return 
           for item in questions:
-                  item.get('status','')
-                  correct+=1
+                  if item.get('status','')=='right':
+                   correct+=1
           percent=(correct/len(questions))*100
           print(f'{topic}: {percent:.0f}% correct ({correct}/{len(questions)}) ')
-          if len(questions)==0:
-            print(f'{topic}: no questions logged out yet.')
-            continue
           
                      
 
